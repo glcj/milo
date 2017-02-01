@@ -47,6 +47,12 @@ public class OpcUaDataTypeEncoding implements DataTypeEncoding {
             OpcBinaryDataTypeCodec<Object> codec =
                 (OpcBinaryDataTypeCodec<Object>) dataTypeManager.getBinaryCodec(encodingTypeId);
 
+            if (codec == null) {
+                throw new UaSerializationException(
+                    StatusCodes.Bad_EncodingError,
+                    "no codec registered for encodingTypeId=" + encodingTypeId);
+            }
+
             ByteBuf buffer = allocator.buffer().order(ByteOrder.LITTLE_ENDIAN);
 
             OpcBinaryStreamWriter writer = new OpcBinaryStreamWriter(buffer);
@@ -74,6 +80,12 @@ public class OpcUaDataTypeEncoding implements DataTypeEncoding {
             OpcXmlDataTypeCodec<Object> codec =
                 (OpcXmlDataTypeCodec<Object>) dataTypeManager.getXmlCodec(encodingTypeId);
 
+            if (codec == null) {
+                throw new UaSerializationException(
+                    StatusCodes.Bad_EncodingError,
+                    "no codec registered for encodingTypeId=" + encodingTypeId);
+            }
+
             StringWriter stringWriter = new StringWriter();
 
             OpcXmlStreamWriter writer = null; // TODO
@@ -96,6 +108,12 @@ public class OpcUaDataTypeEncoding implements DataTypeEncoding {
             @SuppressWarnings("unchecked")
             OpcBinaryDataTypeCodec<Object> codec =
                 (OpcBinaryDataTypeCodec<Object>) dataTypeManager.getBinaryCodec(encodingTypeId);
+
+            if (codec == null) {
+                throw new UaSerializationException(
+                    StatusCodes.Bad_DecodingError,
+                    "no codec registered for encodingTypeId=" + encodingTypeId);
+            }
 
             byte[] bs = encoded.bytes();
             if (bs == null) bs = new byte[0];
@@ -122,6 +140,12 @@ public class OpcUaDataTypeEncoding implements DataTypeEncoding {
             @SuppressWarnings("unchecked")
             OpcXmlDataTypeCodec<Object> codec =
                 (OpcXmlDataTypeCodec<Object>) dataTypeManager.getXmlCodec(encodingTypeId);
+
+            if (codec == null) {
+                throw new UaSerializationException(
+                    StatusCodes.Bad_DecodingError,
+                    "no codec registered for encodingTypeId=" + encodingTypeId);
+            }
 
             OpcXmlStreamReader reader = null; // TODO
 
