@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaRequestMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -75,11 +75,11 @@ public class WriteRequest implements UaRequestMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<WriteRequest> {
         @Override
         public WriteRequest decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             WriteValue[] _nodesToWrite =
                 reader.readArray(
                     () -> (WriteValue) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "WriteValue", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "WriteValue", reader),
                     WriteValue.class
                 );
 
@@ -88,10 +88,10 @@ public class WriteRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, WriteRequest encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeArray(
                 encodable._nodesToWrite,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "WriteValue", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "WriteValue", e, writer)
             );
         }
     }
@@ -99,12 +99,12 @@ public class WriteRequest implements UaRequestMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<WriteRequest> {
         @Override
         public WriteRequest decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             WriteValue[] _nodesToWrite =
                 reader.readArray(
                     "NodesToWrite",
                     f -> (WriteValue) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "WriteValue", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "WriteValue", reader),
                     WriteValue.class
                 );
 
@@ -113,11 +113,11 @@ public class WriteRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, WriteRequest encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeArray(
                 "NodesToWrite",
                 encodable._nodesToWrite,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "WriteValue", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "WriteValue", e, writer)
             );
         }
     }

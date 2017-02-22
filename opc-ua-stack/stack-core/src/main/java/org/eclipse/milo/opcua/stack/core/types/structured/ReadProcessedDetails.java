@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamWriter;
@@ -99,7 +99,7 @@ public class ReadProcessedDetails extends HistoryReadDetails {
             DateTime _endTime = reader.readDateTime();
             Double _processingInterval = reader.readDouble();
             NodeId[] _aggregateType = reader.readArray(reader::readNodeId, NodeId.class);
-            AggregateConfiguration _aggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", reader);
+            AggregateConfiguration _aggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", reader);
 
             return new ReadProcessedDetails(_startTime, _endTime, _processingInterval, _aggregateType, _aggregateConfiguration);
         }
@@ -110,7 +110,7 @@ public class ReadProcessedDetails extends HistoryReadDetails {
             writer.writeDateTime(encodable._endTime);
             writer.writeDouble(encodable._processingInterval);
             writer.writeArray(encodable._aggregateType, writer::writeNodeId);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", encodable._aggregateConfiguration, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", encodable._aggregateConfiguration, writer);
         }
     }
 
@@ -121,7 +121,7 @@ public class ReadProcessedDetails extends HistoryReadDetails {
             DateTime _endTime = reader.readDateTime("EndTime");
             Double _processingInterval = reader.readDouble("ProcessingInterval");
             NodeId[] _aggregateType = reader.readArray("AggregateType", reader::readNodeId, NodeId.class);
-            AggregateConfiguration _aggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", reader);
+            AggregateConfiguration _aggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", reader);
 
             return new ReadProcessedDetails(_startTime, _endTime, _processingInterval, _aggregateType, _aggregateConfiguration);
         }
@@ -132,7 +132,7 @@ public class ReadProcessedDetails extends HistoryReadDetails {
             writer.writeDateTime("EndTime", encodable._endTime);
             writer.writeDouble("ProcessingInterval", encodable._processingInterval);
             writer.writeArray("AggregateType", encodable._aggregateType, writer::writeNodeId);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", encodable._aggregateConfiguration, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", encodable._aggregateConfiguration, writer);
         }
     }
 

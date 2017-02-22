@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaStructure;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -72,7 +72,7 @@ public class RelativePath implements UaStructure {
             RelativePathElement[] _elements =
                 reader.readArray(
                     () -> (RelativePathElement) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "RelativePathElement", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RelativePathElement", reader),
                     RelativePathElement.class
                 );
 
@@ -83,7 +83,7 @@ public class RelativePath implements UaStructure {
         public void encode(SerializationContext context, RelativePath encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
             writer.writeArray(
                 encodable._elements,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RelativePathElement", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RelativePathElement", e, writer)
             );
         }
     }
@@ -95,7 +95,7 @@ public class RelativePath implements UaStructure {
                 reader.readArray(
                     "Elements",
                     f -> (RelativePathElement) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "RelativePathElement", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RelativePathElement", reader),
                     RelativePathElement.class
                 );
 
@@ -107,7 +107,7 @@ public class RelativePath implements UaStructure {
             writer.writeArray(
                 "Elements",
                 encodable._elements,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RelativePathElement", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RelativePathElement", e, writer)
             );
         }
     }

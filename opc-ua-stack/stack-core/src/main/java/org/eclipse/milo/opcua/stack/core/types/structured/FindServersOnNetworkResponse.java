@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaResponseMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -82,12 +82,12 @@ public class FindServersOnNetworkResponse implements UaResponseMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<FindServersOnNetworkResponse> {
         @Override
         public FindServersOnNetworkResponse decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             DateTime _lastCounterResetTime = reader.readDateTime();
             ServerOnNetwork[] _servers =
                 reader.readArray(
                     () -> (ServerOnNetwork) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ServerOnNetwork", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ServerOnNetwork", reader),
                     ServerOnNetwork.class
                 );
 
@@ -96,11 +96,11 @@ public class FindServersOnNetworkResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, FindServersOnNetworkResponse encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeDateTime(encodable._lastCounterResetTime);
             writer.writeArray(
                 encodable._servers,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ServerOnNetwork", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ServerOnNetwork", e, writer)
             );
         }
     }
@@ -108,13 +108,13 @@ public class FindServersOnNetworkResponse implements UaResponseMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<FindServersOnNetworkResponse> {
         @Override
         public FindServersOnNetworkResponse decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             DateTime _lastCounterResetTime = reader.readDateTime("LastCounterResetTime");
             ServerOnNetwork[] _servers =
                 reader.readArray(
                     "Servers",
                     f -> (ServerOnNetwork) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ServerOnNetwork", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ServerOnNetwork", reader),
                     ServerOnNetwork.class
                 );
 
@@ -123,12 +123,12 @@ public class FindServersOnNetworkResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, FindServersOnNetworkResponse encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeDateTime("LastCounterResetTime", encodable._lastCounterResetTime);
             writer.writeArray(
                 "Servers",
                 encodable._servers,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ServerOnNetwork", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ServerOnNetwork", e, writer)
             );
         }
     }

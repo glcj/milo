@@ -16,7 +16,7 @@ package org.eclipse.milo.opcua.stack.core.types.structured;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaRequestMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -79,7 +79,7 @@ public class QueryNextRequest implements UaRequestMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<QueryNextRequest> {
         @Override
         public QueryNextRequest decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             Boolean _releaseContinuationPoint = reader.readBoolean();
             ByteString _continuationPoint = reader.readByteString();
 
@@ -88,7 +88,7 @@ public class QueryNextRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, QueryNextRequest encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeBoolean(encodable._releaseContinuationPoint);
             writer.writeByteString(encodable._continuationPoint);
         }
@@ -97,7 +97,7 @@ public class QueryNextRequest implements UaRequestMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<QueryNextRequest> {
         @Override
         public QueryNextRequest decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             Boolean _releaseContinuationPoint = reader.readBoolean("ReleaseContinuationPoint");
             ByteString _continuationPoint = reader.readByteString("ContinuationPoint");
 
@@ -106,7 +106,7 @@ public class QueryNextRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, QueryNextRequest encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeBoolean("ReleaseContinuationPoint", encodable._releaseContinuationPoint);
             writer.writeByteString("ContinuationPoint", encodable._continuationPoint);
         }

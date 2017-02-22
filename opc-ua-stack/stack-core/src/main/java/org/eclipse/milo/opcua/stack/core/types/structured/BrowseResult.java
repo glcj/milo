@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaStructure;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -88,7 +88,7 @@ public class BrowseResult implements UaStructure {
             ReferenceDescription[] _references =
                 reader.readArray(
                     () -> (ReferenceDescription) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ReferenceDescription", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReferenceDescription", reader),
                     ReferenceDescription.class
                 );
 
@@ -101,7 +101,7 @@ public class BrowseResult implements UaStructure {
             writer.writeByteString(encodable._continuationPoint);
             writer.writeArray(
                 encodable._references,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ReferenceDescription", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReferenceDescription", e, writer)
             );
         }
     }
@@ -115,7 +115,7 @@ public class BrowseResult implements UaStructure {
                 reader.readArray(
                     "References",
                     f -> (ReferenceDescription) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ReferenceDescription", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReferenceDescription", reader),
                     ReferenceDescription.class
                 );
 
@@ -129,7 +129,7 @@ public class BrowseResult implements UaStructure {
             writer.writeArray(
                 "References",
                 encodable._references,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ReferenceDescription", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReferenceDescription", e, writer)
             );
         }
     }

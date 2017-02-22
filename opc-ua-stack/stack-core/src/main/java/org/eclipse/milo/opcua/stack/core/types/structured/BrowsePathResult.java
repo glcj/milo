@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaStructure;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -80,7 +80,7 @@ public class BrowsePathResult implements UaStructure {
             BrowsePathTarget[] _targets =
                 reader.readArray(
                     () -> (BrowsePathTarget) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "BrowsePathTarget", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "BrowsePathTarget", reader),
                     BrowsePathTarget.class
                 );
 
@@ -92,7 +92,7 @@ public class BrowsePathResult implements UaStructure {
             writer.writeStatusCode(encodable._statusCode);
             writer.writeArray(
                 encodable._targets,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "BrowsePathTarget", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "BrowsePathTarget", e, writer)
             );
         }
     }
@@ -105,7 +105,7 @@ public class BrowsePathResult implements UaStructure {
                 reader.readArray(
                     "Targets",
                     f -> (BrowsePathTarget) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "BrowsePathTarget", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "BrowsePathTarget", reader),
                     BrowsePathTarget.class
                 );
 
@@ -118,7 +118,7 @@ public class BrowsePathResult implements UaStructure {
             writer.writeArray(
                 "Targets",
                 encodable._targets,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "BrowsePathTarget", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "BrowsePathTarget", e, writer)
             );
         }
     }

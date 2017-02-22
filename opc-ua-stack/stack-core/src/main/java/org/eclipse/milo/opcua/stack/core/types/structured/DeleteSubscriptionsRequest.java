@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaRequestMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -76,7 +76,7 @@ public class DeleteSubscriptionsRequest implements UaRequestMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<DeleteSubscriptionsRequest> {
         @Override
         public DeleteSubscriptionsRequest decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             UInteger[] _subscriptionIds = reader.readArray(reader::readUInt32, UInteger.class);
 
             return new DeleteSubscriptionsRequest(_requestHeader, _subscriptionIds);
@@ -84,7 +84,7 @@ public class DeleteSubscriptionsRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, DeleteSubscriptionsRequest encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeArray(encodable._subscriptionIds, writer::writeUInt32);
         }
     }
@@ -92,7 +92,7 @@ public class DeleteSubscriptionsRequest implements UaRequestMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<DeleteSubscriptionsRequest> {
         @Override
         public DeleteSubscriptionsRequest decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             UInteger[] _subscriptionIds = reader.readArray("SubscriptionIds", reader::readUInt32, UInteger.class);
 
             return new DeleteSubscriptionsRequest(_requestHeader, _subscriptionIds);
@@ -100,7 +100,7 @@ public class DeleteSubscriptionsRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, DeleteSubscriptionsRequest encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeArray("SubscriptionIds", encodable._subscriptionIds, writer::writeUInt32);
         }
     }

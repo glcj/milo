@@ -15,16 +15,19 @@ package org.eclipse.milo.opcua.stack.core.serialization;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.DataTypeDictionary;
-import org.eclipse.milo.opcua.stack.core.serialization.codec.DataTypeDictionaryImpl;
+import org.eclipse.milo.opcua.stack.core.serialization.codec.DataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
+import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeDictionary;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamWriter;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcXmlDataTypeCodec;
+import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcXmlDataTypeDictionary;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcXmlStreamReader;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcXmlStreamWriter;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.SerializationContext;
@@ -38,57 +41,50 @@ import org.eclipse.milo.opcua.stack.core.types.builtin.StatusCode;
 import org.eclipse.milo.opcua.stack.core.types.builtin.Variant;
 import org.eclipse.milo.opcua.stack.core.types.builtin.XmlElement;
 
-public class OpcUaDataTypeDictionary {
+public class OpcUaDataTypeManager implements DataTypeManager {
 
-    public static final String NAMESPACE_URI = "http://opcfoundation.org/UA/";
+    public static final String BINARY_NAMESPACE_URI = "http://opcfoundation.org/UA/";
+    public static final String XML_NAMESPACE_URI = "http://opcfoundation.org/UA/2008/02/Types.xsd";
 
-    /**
-     * Get the singleton instance of the OPC UA namespace type dictionary
-     *
-     * @return the singleton instance of the OPC UA namespace type dictionary.
-     */
-    public static DataTypeDictionary getInstance() {
+    public static OpcUaDataTypeManager getInstance() {
         return InstanceHolder.INSTANCE;
     }
 
     private static class InstanceHolder {
-        private static final DataTypeDictionary INSTANCE = getOrInitialize();
+        private static final OpcUaDataTypeManager INSTANCE = getOrInitialize();
     }
 
     private static final ConcurrentMap<NodeId, OpcBinaryDataTypeCodec<?>> BINARY_CODECS_BY_ID
         = Maps.newConcurrentMap();
-    private static final ConcurrentMap<String, OpcBinaryDataTypeCodec<?>> BINARY_CODECS_BY_NAME
+    private static final ConcurrentMap<String, OpcBinaryDataTypeCodec<?>> BINARY_CODECS_BY_DESC
         = Maps.newConcurrentMap();
 
     private static final ConcurrentMap<NodeId, OpcXmlDataTypeCodec<?>> XML_CODECS_BY_ID
         = Maps.newConcurrentMap();
-    private static final ConcurrentMap<String, OpcXmlDataTypeCodec<?>> XML_CODECS_BY_NAME
+    private static final ConcurrentMap<String, OpcXmlDataTypeCodec<?>> XML_CODECS_BY_DESC
         = Maps.newConcurrentMap();
 
-    private static final AtomicReference<DataTypeDictionary> INSTANCE_REF = new AtomicReference<>();
+    private static final AtomicReference<OpcUaDataTypeManager> INSTANCE_REF = new AtomicReference<>();
 
-    private static synchronized DataTypeDictionary getOrInitialize() {
-        DataTypeDictionary instance = INSTANCE_REF.get();
+    private static synchronized OpcUaDataTypeManager getOrInitialize() {
+        OpcUaDataTypeManager instance = INSTANCE_REF.get();
 
         if (instance == null) {
-            OpcUaDataTypeDictionaryInitializer.initialize();
-
-            instance = new DataTypeDictionaryImpl(
-                NAMESPACE_URI,
-                BINARY_CODECS_BY_ID,
-                BINARY_CODECS_BY_NAME,
-                XML_CODECS_BY_ID,
-                XML_CODECS_BY_NAME
-            );
+            OpcUaDataTypeManagerInitializer.initialize();
 
             registerBuiltinTypeCodecs();
 
-            INSTANCE_REF.set(instance);
+            instance = new OpcUaDataTypeManager(
+                BINARY_CODECS_BY_ID,
+                BINARY_CODECS_BY_DESC,
+                XML_CODECS_BY_ID,
+                XML_CODECS_BY_DESC
+            );
 
-            return instance;
-        } else {
-            return instance;
+            INSTANCE_REF.set(instance);
         }
+
+        return instance;
     }
 
     public static synchronized <T> void register(
@@ -98,22 +94,27 @@ public class OpcUaDataTypeDictionary {
         NodeId xmlEncodingId,
         OpcXmlDataTypeCodec<T> xmlTypeCodec) {
 
+        // The DataTypeDescription for a DataType defined in an XML DataTypeDictionary is an XPath expression that
+        // can be used to locate the element in the document. We can cheat for the built-in types since we know what
+        // it looks like...
+        String xmlDescription = String.format("//xs:element[@name='%s']", typeName);
+
         registerBinaryCodec(binaryTypeCodec, binaryEncodingId, typeName);
-        registerXmlCodec(xmlTypeCodec, xmlEncodingId, typeName);
+        registerXmlCodec(xmlTypeCodec, xmlEncodingId, xmlDescription);
     }
 
-    public static synchronized <T> void registerBinaryCodec(
-        OpcBinaryDataTypeCodec<T> codec, NodeId encodingId, String typeName) {
+    private static synchronized <T> void registerBinaryCodec(
+        OpcBinaryDataTypeCodec<T> codec, NodeId encodingId, String description) {
 
         BINARY_CODECS_BY_ID.put(encodingId, codec);
-        BINARY_CODECS_BY_NAME.put(typeName, codec);
+        BINARY_CODECS_BY_DESC.put(description, codec);
     }
 
-    public static synchronized <T> void registerXmlCodec(
-        OpcXmlDataTypeCodec<T> codec, NodeId encodingId, String typeName) {
+    private static synchronized <T> void registerXmlCodec(
+        OpcXmlDataTypeCodec<T> codec, NodeId encodingId, String description) {
 
         XML_CODECS_BY_ID.put(encodingId, codec);
-        XML_CODECS_BY_NAME.put(typeName, codec);
+        XML_CODECS_BY_DESC.put(description, codec);
     }
 
     private static void registerBuiltinTypeCodecs() {
@@ -481,6 +482,57 @@ public class OpcUaDataTypeDictionary {
                 }
             }
         );
+    }
+
+    private final ConcurrentMap<String, DataTypeDictionary<?>> dictionaries = Maps.newConcurrentMap();
+
+    private final ConcurrentMap<NodeId, OpcBinaryDataTypeCodec<?>> binaryCodecsById;
+    private final ConcurrentMap<NodeId, OpcXmlDataTypeCodec<?>> xmlCodecsById;
+
+    private OpcUaDataTypeManager(
+        ConcurrentMap<NodeId, OpcBinaryDataTypeCodec<?>> binaryCodecsById,
+        ConcurrentMap<String, OpcBinaryDataTypeCodec<?>> binaryCodecsByDesc,
+        ConcurrentMap<NodeId, OpcXmlDataTypeCodec<?>> xmlCodecsById,
+        ConcurrentMap<String, OpcXmlDataTypeCodec<?>> xmlCodecsByDesc) {
+
+        this.binaryCodecsById = binaryCodecsById;
+        this.xmlCodecsById = xmlCodecsById;
+
+        OpcBinaryDataTypeDictionary binaryDictionary = new OpcBinaryDataTypeDictionary(
+            BINARY_NAMESPACE_URI,
+            binaryCodecsByDesc
+        );
+
+        OpcXmlDataTypeDictionary xmlDictionary = new OpcXmlDataTypeDictionary(
+            XML_NAMESPACE_URI,
+            xmlCodecsByDesc
+        );
+
+        registerTypeDictionary(binaryDictionary);
+        registerTypeDictionary(xmlDictionary);
+    }
+
+    @Override
+    public void registerTypeDictionary(DataTypeDictionary dataTypeDictionary) {
+        dictionaries.put(dataTypeDictionary.getNamespaceUri(), dataTypeDictionary);
+    }
+
+    @Nullable
+    @Override
+    public DataTypeDictionary getTypeDictionary(String namespaceUri) {
+        return dictionaries.get(namespaceUri);
+    }
+
+    @Nullable
+    @Override
+    public OpcBinaryDataTypeCodec<?> getBinaryCodec(NodeId encodingId) {
+        return binaryCodecsById.get(encodingId);
+    }
+
+    @Nullable
+    @Override
+    public OpcXmlDataTypeCodec<?> getXmlCodec(NodeId encodingId) {
+        return xmlCodecsById.get(encodingId);
     }
 
 }

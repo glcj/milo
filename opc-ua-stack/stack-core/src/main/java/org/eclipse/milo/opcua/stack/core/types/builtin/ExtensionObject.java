@@ -17,6 +17,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
 import org.eclipse.milo.opcua.stack.core.serialization.DataTypeEncoding;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaStructure;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.DataTypeManager;
 
@@ -69,7 +70,7 @@ public final class ExtensionObject {
     }
 
     public <T> T decode(DataTypeEncoding encoding) throws UaSerializationException {
-        return decode(encoding, DataTypeManager.BUILTIN);
+        return decode(encoding, OpcUaDataTypeManager.getInstance());
     }
 
     public <T> T decode(DataTypeEncoding encoding, DataTypeManager dataTypeManager) throws UaSerializationException {
@@ -128,7 +129,7 @@ public final class ExtensionObject {
                                                      NodeId encodingTypeId,
                                                      DataTypeEncoding context) throws UaSerializationException {
 
-        return encodeAsByteString(object, encodingTypeId, context, DataTypeManager.BUILTIN);
+        return encodeAsByteString(object, encodingTypeId, context, OpcUaDataTypeManager.getInstance());
     }
 
     public static ExtensionObject encodeAsByteString(Object object,
@@ -158,7 +159,7 @@ public final class ExtensionObject {
                                                      NodeId encodingTypeId,
                                                      DataTypeEncoding context) throws UaSerializationException {
 
-        return encodeAsXmlElement(object, encodingTypeId, context, DataTypeManager.BUILTIN);
+        return encodeAsXmlElement(object, encodingTypeId, context, OpcUaDataTypeManager.getInstance());
     }
 
     public static ExtensionObject encodeAsXmlElement(Object object,

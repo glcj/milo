@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaResponseMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -75,11 +75,11 @@ public class FindServersResponse implements UaResponseMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<FindServersResponse> {
         @Override
         public FindServersResponse decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             ApplicationDescription[] _servers =
                 reader.readArray(
                     () -> (ApplicationDescription) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ApplicationDescription", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ApplicationDescription", reader),
                     ApplicationDescription.class
                 );
 
@@ -88,10 +88,10 @@ public class FindServersResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, FindServersResponse encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeArray(
                 encodable._servers,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ApplicationDescription", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ApplicationDescription", e, writer)
             );
         }
     }
@@ -99,12 +99,12 @@ public class FindServersResponse implements UaResponseMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<FindServersResponse> {
         @Override
         public FindServersResponse decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             ApplicationDescription[] _servers =
                 reader.readArray(
                     "Servers",
                     f -> (ApplicationDescription) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ApplicationDescription", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ApplicationDescription", reader),
                     ApplicationDescription.class
                 );
 
@@ -113,11 +113,11 @@ public class FindServersResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, FindServersResponse encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeArray(
                 "Servers",
                 encodable._servers,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ApplicationDescription", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ApplicationDescription", e, writer)
             );
         }
     }

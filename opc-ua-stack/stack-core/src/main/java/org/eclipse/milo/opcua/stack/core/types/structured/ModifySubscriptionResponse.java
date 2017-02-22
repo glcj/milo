@@ -16,7 +16,7 @@ package org.eclipse.milo.opcua.stack.core.types.structured;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaResponseMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -85,7 +85,7 @@ public class ModifySubscriptionResponse implements UaResponseMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<ModifySubscriptionResponse> {
         @Override
         public ModifySubscriptionResponse decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             Double _revisedPublishingInterval = reader.readDouble();
             UInteger _revisedLifetimeCount = reader.readUInt32();
             UInteger _revisedMaxKeepAliveCount = reader.readUInt32();
@@ -95,7 +95,7 @@ public class ModifySubscriptionResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, ModifySubscriptionResponse encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeDouble(encodable._revisedPublishingInterval);
             writer.writeUInt32(encodable._revisedLifetimeCount);
             writer.writeUInt32(encodable._revisedMaxKeepAliveCount);
@@ -105,7 +105,7 @@ public class ModifySubscriptionResponse implements UaResponseMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<ModifySubscriptionResponse> {
         @Override
         public ModifySubscriptionResponse decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             Double _revisedPublishingInterval = reader.readDouble("RevisedPublishingInterval");
             UInteger _revisedLifetimeCount = reader.readUInt32("RevisedLifetimeCount");
             UInteger _revisedMaxKeepAliveCount = reader.readUInt32("RevisedMaxKeepAliveCount");
@@ -115,7 +115,7 @@ public class ModifySubscriptionResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, ModifySubscriptionResponse encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeDouble("RevisedPublishingInterval", encodable._revisedPublishingInterval);
             writer.writeUInt32("RevisedLifetimeCount", encodable._revisedLifetimeCount);
             writer.writeUInt32("RevisedMaxKeepAliveCount", encodable._revisedMaxKeepAliveCount);

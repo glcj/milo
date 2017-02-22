@@ -15,11 +15,12 @@ package org.eclipse.milo.opcua.stack.core.serialization.codec;
 
 import org.eclipse.milo.opcua.stack.core.StatusCodes;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.types.builtin.NodeId;
 
 public interface SerializationContext {
 
-    SerializationContext INTERNAL = () -> DataTypeManager.BUILTIN;
+    SerializationContext INTERNAL = OpcUaDataTypeManager::getInstance;
 
     DataTypeManager getTypeManager();
 

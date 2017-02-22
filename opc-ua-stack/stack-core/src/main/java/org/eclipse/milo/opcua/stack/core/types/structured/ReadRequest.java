@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaRequestMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -88,13 +88,13 @@ public class ReadRequest implements UaRequestMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<ReadRequest> {
         @Override
         public ReadRequest decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             Double _maxAge = reader.readDouble();
             TimestampsToReturn _timestampsToReturn = TimestampsToReturn.from(reader.readInt32());
             ReadValueId[] _nodesToRead =
                 reader.readArray(
                     () -> (ReadValueId) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ReadValueId", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReadValueId", reader),
                     ReadValueId.class
                 );
 
@@ -103,12 +103,12 @@ public class ReadRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, ReadRequest encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeDouble(encodable._maxAge);
             writer.writeInt32(encodable._timestampsToReturn != null ? encodable._timestampsToReturn.getValue() : 0);
             writer.writeArray(
                 encodable._nodesToRead,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ReadValueId", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReadValueId", e, writer)
             );
         }
     }
@@ -116,14 +116,14 @@ public class ReadRequest implements UaRequestMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<ReadRequest> {
         @Override
         public ReadRequest decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             Double _maxAge = reader.readDouble("MaxAge");
             TimestampsToReturn _timestampsToReturn = TimestampsToReturn.from(reader.readInt32("TimestampsToReturn"));
             ReadValueId[] _nodesToRead =
                 reader.readArray(
                     "NodesToRead",
                     f -> (ReadValueId) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ReadValueId", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReadValueId", reader),
                     ReadValueId.class
                 );
 
@@ -132,13 +132,13 @@ public class ReadRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, ReadRequest encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeDouble("MaxAge", encodable._maxAge);
             writer.writeInt32("TimestampsToReturn", encodable._timestampsToReturn != null ? encodable._timestampsToReturn.getValue() : 0);
             writer.writeArray(
                 "NodesToRead",
                 encodable._nodesToRead,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ReadValueId", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReadValueId", e, writer)
             );
         }
     }

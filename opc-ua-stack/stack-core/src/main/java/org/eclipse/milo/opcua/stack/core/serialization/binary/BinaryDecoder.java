@@ -25,7 +25,7 @@
 //import org.eclipse.milo.opcua.stack.core.StatusCodes;
 //import org.eclipse.milo.opcua.stack.core.UaSerializationException;
 //import org.eclipse.milo.opcua.stack.core.channel.ChannelConfig;
-//import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+//import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 //import org.eclipse.milo.opcua.stack.core.serialization.TypeDecoder;
 //import org.eclipse.milo.opcua.stack.core.serialization.DataTypeDictionary;
 //import org.eclipse.milo.opcua.stack.core.serialization.UaDecoder;
@@ -54,7 +54,7 @@
 //
 //public class BinaryDecoder implements UaDecoder {
 //
-//    private static final OpcUaDataTypeDictionary.Instance TYPE_DICTIONARY = OpcUaDataTypeDictionary.getInstance();
+//    private static final OpcUaDataTypeManager.Instance TYPE_DICTIONARY = OpcUaDataTypeManager.getBinaryInstance();
 //
 //    private volatile ByteBuf buffer;
 //

@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaStructure;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -134,17 +134,17 @@ public class ProgramDiagnosticDataType implements UaStructure {
             Argument[] _lastMethodInputArguments =
                 reader.readArray(
                     () -> (Argument) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "Argument", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "Argument", reader),
                     Argument.class
                 );
             Argument[] _lastMethodOutputArguments =
                 reader.readArray(
                     () -> (Argument) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "Argument", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "Argument", reader),
                     Argument.class
                 );
             DateTime _lastMethodCallTime = reader.readDateTime();
-            StatusResult _lastMethodReturnStatus = (StatusResult) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "StatusResult", reader);
+            StatusResult _lastMethodReturnStatus = (StatusResult) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "StatusResult", reader);
 
             return new ProgramDiagnosticDataType(_createSessionId, _createClientName, _invocationCreationTime, _lastTransitionTime, _lastMethodCall, _lastMethodSessionId, _lastMethodInputArguments, _lastMethodOutputArguments, _lastMethodCallTime, _lastMethodReturnStatus);
         }
@@ -159,14 +159,14 @@ public class ProgramDiagnosticDataType implements UaStructure {
             writer.writeNodeId(encodable._lastMethodSessionId);
             writer.writeArray(
                 encodable._lastMethodInputArguments,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "Argument", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "Argument", e, writer)
             );
             writer.writeArray(
                 encodable._lastMethodOutputArguments,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "Argument", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "Argument", e, writer)
             );
             writer.writeDateTime(encodable._lastMethodCallTime);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "StatusResult", encodable._lastMethodReturnStatus, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "StatusResult", encodable._lastMethodReturnStatus, writer);
         }
     }
 
@@ -183,18 +183,18 @@ public class ProgramDiagnosticDataType implements UaStructure {
                 reader.readArray(
                     "LastMethodInputArguments",
                     f -> (Argument) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "Argument", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "Argument", reader),
                     Argument.class
                 );
             Argument[] _lastMethodOutputArguments =
                 reader.readArray(
                     "LastMethodOutputArguments",
                     f -> (Argument) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "Argument", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "Argument", reader),
                     Argument.class
                 );
             DateTime _lastMethodCallTime = reader.readDateTime("LastMethodCallTime");
-            StatusResult _lastMethodReturnStatus = (StatusResult) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "StatusResult", reader);
+            StatusResult _lastMethodReturnStatus = (StatusResult) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "StatusResult", reader);
 
             return new ProgramDiagnosticDataType(_createSessionId, _createClientName, _invocationCreationTime, _lastTransitionTime, _lastMethodCall, _lastMethodSessionId, _lastMethodInputArguments, _lastMethodOutputArguments, _lastMethodCallTime, _lastMethodReturnStatus);
         }
@@ -210,15 +210,15 @@ public class ProgramDiagnosticDataType implements UaStructure {
             writer.writeArray(
                 "LastMethodInputArguments",
                 encodable._lastMethodInputArguments,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "Argument", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "Argument", e, writer)
             );
             writer.writeArray(
                 "LastMethodOutputArguments",
                 encodable._lastMethodOutputArguments,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "Argument", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "Argument", e, writer)
             );
             writer.writeDateTime("LastMethodCallTime", encodable._lastMethodCallTime);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "StatusResult", encodable._lastMethodReturnStatus, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "StatusResult", encodable._lastMethodReturnStatus, writer);
         }
     }
 

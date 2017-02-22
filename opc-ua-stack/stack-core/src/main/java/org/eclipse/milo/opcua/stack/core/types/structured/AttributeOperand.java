@@ -16,7 +16,7 @@ package org.eclipse.milo.opcua.stack.core.types.structured;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamWriter;
@@ -94,7 +94,7 @@ public class AttributeOperand extends FilterOperand {
         public AttributeOperand decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
             NodeId _nodeId = reader.readNodeId();
             String _alias = reader.readString();
-            RelativePath _browsePath = (RelativePath) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RelativePath", reader);
+            RelativePath _browsePath = (RelativePath) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RelativePath", reader);
             UInteger _attributeId = reader.readUInt32();
             String _indexRange = reader.readString();
 
@@ -105,7 +105,7 @@ public class AttributeOperand extends FilterOperand {
         public void encode(SerializationContext context, AttributeOperand encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
             writer.writeNodeId(encodable._nodeId);
             writer.writeString(encodable._alias);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RelativePath", encodable._browsePath, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RelativePath", encodable._browsePath, writer);
             writer.writeUInt32(encodable._attributeId);
             writer.writeString(encodable._indexRange);
         }
@@ -116,7 +116,7 @@ public class AttributeOperand extends FilterOperand {
         public AttributeOperand decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
             NodeId _nodeId = reader.readNodeId("NodeId");
             String _alias = reader.readString("Alias");
-            RelativePath _browsePath = (RelativePath) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RelativePath", reader);
+            RelativePath _browsePath = (RelativePath) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RelativePath", reader);
             UInteger _attributeId = reader.readUInt32("AttributeId");
             String _indexRange = reader.readString("IndexRange");
 
@@ -127,7 +127,7 @@ public class AttributeOperand extends FilterOperand {
         public void encode(SerializationContext context, AttributeOperand encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
             writer.writeNodeId("NodeId", encodable._nodeId);
             writer.writeString("Alias", encodable._alias);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RelativePath", encodable._browsePath, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RelativePath", encodable._browsePath, writer);
             writer.writeUInt32("AttributeId", encodable._attributeId);
             writer.writeString("IndexRange", encodable._indexRange);
         }

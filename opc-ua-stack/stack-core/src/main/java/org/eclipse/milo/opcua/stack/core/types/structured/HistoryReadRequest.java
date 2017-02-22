@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaRequestMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -95,14 +95,14 @@ public class HistoryReadRequest implements UaRequestMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<HistoryReadRequest> {
         @Override
         public HistoryReadRequest decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             ExtensionObject _historyReadDetails = reader.readExtensionObject();
             TimestampsToReturn _timestampsToReturn = TimestampsToReturn.from(reader.readInt32());
             Boolean _releaseContinuationPoints = reader.readBoolean();
             HistoryReadValueId[] _nodesToRead =
                 reader.readArray(
                     () -> (HistoryReadValueId) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "HistoryReadValueId", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "HistoryReadValueId", reader),
                     HistoryReadValueId.class
                 );
 
@@ -111,13 +111,13 @@ public class HistoryReadRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, HistoryReadRequest encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeExtensionObject(encodable._historyReadDetails);
             writer.writeInt32(encodable._timestampsToReturn != null ? encodable._timestampsToReturn.getValue() : 0);
             writer.writeBoolean(encodable._releaseContinuationPoints);
             writer.writeArray(
                 encodable._nodesToRead,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "HistoryReadValueId", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "HistoryReadValueId", e, writer)
             );
         }
     }
@@ -125,7 +125,7 @@ public class HistoryReadRequest implements UaRequestMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<HistoryReadRequest> {
         @Override
         public HistoryReadRequest decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             ExtensionObject _historyReadDetails = reader.readExtensionObject("HistoryReadDetails");
             TimestampsToReturn _timestampsToReturn = TimestampsToReturn.from(reader.readInt32("TimestampsToReturn"));
             Boolean _releaseContinuationPoints = reader.readBoolean("ReleaseContinuationPoints");
@@ -133,7 +133,7 @@ public class HistoryReadRequest implements UaRequestMessage {
                 reader.readArray(
                     "NodesToRead",
                     f -> (HistoryReadValueId) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "HistoryReadValueId", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "HistoryReadValueId", reader),
                     HistoryReadValueId.class
                 );
 
@@ -142,14 +142,14 @@ public class HistoryReadRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, HistoryReadRequest encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeExtensionObject("HistoryReadDetails", encodable._historyReadDetails);
             writer.writeInt32("TimestampsToReturn", encodable._timestampsToReturn != null ? encodable._timestampsToReturn.getValue() : 0);
             writer.writeBoolean("ReleaseContinuationPoints", encodable._releaseContinuationPoints);
             writer.writeArray(
                 "NodesToRead",
                 encodable._nodesToRead,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "HistoryReadValueId", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "HistoryReadValueId", e, writer)
             );
         }
     }

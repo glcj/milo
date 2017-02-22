@@ -47,28 +47,28 @@ public interface DataTypeEncoding {
         Object object,
         NodeId encodingTypeId) throws UaSerializationException {
 
-        return encodeToByteString(object, encodingTypeId, DataTypeManager.BUILTIN);
+        return encodeToByteString(object, encodingTypeId, OpcUaDataTypeManager.getInstance());
     }
 
     default XmlElement encodeToXmlElement(
         Object object,
         NodeId encodingTypeId) throws UaSerializationException {
 
-        return encodeToXmlElement(object, encodingTypeId, DataTypeManager.BUILTIN);
+        return encodeToXmlElement(object, encodingTypeId, OpcUaDataTypeManager.getInstance());
     }
 
     default Object decodeFromByteString(
         ByteString encoded,
         NodeId encodingTypeId) throws UaSerializationException {
 
-        return decodeFromByteString(encoded, encodingTypeId, DataTypeManager.BUILTIN);
+        return decodeFromByteString(encoded, encodingTypeId, OpcUaDataTypeManager.getInstance());
     }
 
     default Object decodeFromXmlElement(
         XmlElement encoded,
         NodeId encodingTypeId) throws UaSerializationException {
 
-        return decodeFromXmlElement(encoded, encodingTypeId, DataTypeManager.BUILTIN);
+        return decodeFromXmlElement(encoded, encodingTypeId, OpcUaDataTypeManager.getInstance());
     }
 
 }

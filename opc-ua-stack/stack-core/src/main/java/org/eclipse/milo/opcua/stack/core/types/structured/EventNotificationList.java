@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamWriter;
@@ -73,7 +73,7 @@ public class EventNotificationList extends NotificationData {
             EventFieldList[] _events =
                 reader.readArray(
                     () -> (EventFieldList) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "EventFieldList", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "EventFieldList", reader),
                     EventFieldList.class
                 );
 
@@ -84,7 +84,7 @@ public class EventNotificationList extends NotificationData {
         public void encode(SerializationContext context, EventNotificationList encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
             writer.writeArray(
                 encodable._events,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "EventFieldList", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "EventFieldList", e, writer)
             );
         }
     }
@@ -96,7 +96,7 @@ public class EventNotificationList extends NotificationData {
                 reader.readArray(
                     "Events",
                     f -> (EventFieldList) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "EventFieldList", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "EventFieldList", reader),
                     EventFieldList.class
                 );
 
@@ -108,7 +108,7 @@ public class EventNotificationList extends NotificationData {
             writer.writeArray(
                 "Events",
                 encodable._events,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "EventFieldList", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "EventFieldList", e, writer)
             );
         }
     }

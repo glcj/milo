@@ -15,7 +15,7 @@ package org.eclipse.milo.opcua.stack.core.serialization.codec;
 
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
 
-public interface OpcXmlDataTypeCodec<T> {
+public interface OpcXmlDataTypeCodec<T> extends DataTypeCodec<T, OpcXmlStreamReader, OpcXmlStreamWriter> {
 
     T decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException;
 

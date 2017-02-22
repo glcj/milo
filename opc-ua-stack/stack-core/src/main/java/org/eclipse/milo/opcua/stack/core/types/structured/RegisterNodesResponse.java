@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaResponseMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -75,7 +75,7 @@ public class RegisterNodesResponse implements UaResponseMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<RegisterNodesResponse> {
         @Override
         public RegisterNodesResponse decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             NodeId[] _registeredNodeIds = reader.readArray(reader::readNodeId, NodeId.class);
 
             return new RegisterNodesResponse(_responseHeader, _registeredNodeIds);
@@ -83,7 +83,7 @@ public class RegisterNodesResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, RegisterNodesResponse encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeArray(encodable._registeredNodeIds, writer::writeNodeId);
         }
     }
@@ -91,7 +91,7 @@ public class RegisterNodesResponse implements UaResponseMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<RegisterNodesResponse> {
         @Override
         public RegisterNodesResponse decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             NodeId[] _registeredNodeIds = reader.readArray("RegisteredNodeIds", reader::readNodeId, NodeId.class);
 
             return new RegisterNodesResponse(_responseHeader, _registeredNodeIds);
@@ -99,7 +99,7 @@ public class RegisterNodesResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, RegisterNodesResponse encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeArray("RegisteredNodeIds", encodable._registeredNodeIds, writer::writeNodeId);
         }
     }

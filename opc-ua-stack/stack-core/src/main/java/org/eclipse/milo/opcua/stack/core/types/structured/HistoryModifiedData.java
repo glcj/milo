@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamWriter;
@@ -82,7 +82,7 @@ public class HistoryModifiedData extends HistoryData {
             ModificationInfo[] _modificationInfos =
                 reader.readArray(
                     () -> (ModificationInfo) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ModificationInfo", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ModificationInfo", reader),
                     ModificationInfo.class
                 );
 
@@ -94,7 +94,7 @@ public class HistoryModifiedData extends HistoryData {
             writer.writeArray(encodable._dataValues, writer::writeDataValue);
             writer.writeArray(
                 encodable._modificationInfos,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ModificationInfo", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ModificationInfo", e, writer)
             );
         }
     }
@@ -107,7 +107,7 @@ public class HistoryModifiedData extends HistoryData {
                 reader.readArray(
                     "ModificationInfos",
                     f -> (ModificationInfo) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ModificationInfo", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ModificationInfo", reader),
                     ModificationInfo.class
                 );
 
@@ -120,7 +120,7 @@ public class HistoryModifiedData extends HistoryData {
             writer.writeArray(
                 "ModificationInfos",
                 encodable._modificationInfos,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ModificationInfo", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ModificationInfo", e, writer)
             );
         }
     }

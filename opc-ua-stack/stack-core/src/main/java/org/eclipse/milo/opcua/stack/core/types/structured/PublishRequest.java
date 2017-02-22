@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaRequestMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -75,11 +75,11 @@ public class PublishRequest implements UaRequestMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<PublishRequest> {
         @Override
         public PublishRequest decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             SubscriptionAcknowledgement[] _subscriptionAcknowledgements =
                 reader.readArray(
                     () -> (SubscriptionAcknowledgement) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "SubscriptionAcknowledgement", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "SubscriptionAcknowledgement", reader),
                     SubscriptionAcknowledgement.class
                 );
 
@@ -88,10 +88,10 @@ public class PublishRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, PublishRequest encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeArray(
                 encodable._subscriptionAcknowledgements,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "SubscriptionAcknowledgement", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "SubscriptionAcknowledgement", e, writer)
             );
         }
     }
@@ -99,12 +99,12 @@ public class PublishRequest implements UaRequestMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<PublishRequest> {
         @Override
         public PublishRequest decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             SubscriptionAcknowledgement[] _subscriptionAcknowledgements =
                 reader.readArray(
                     "SubscriptionAcknowledgements",
                     f -> (SubscriptionAcknowledgement) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "SubscriptionAcknowledgement", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "SubscriptionAcknowledgement", reader),
                     SubscriptionAcknowledgement.class
                 );
 
@@ -113,11 +113,11 @@ public class PublishRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, PublishRequest encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeArray(
                 "SubscriptionAcknowledgements",
                 encodable._subscriptionAcknowledgements,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "SubscriptionAcknowledgement", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "SubscriptionAcknowledgement", e, writer)
             );
         }
     }

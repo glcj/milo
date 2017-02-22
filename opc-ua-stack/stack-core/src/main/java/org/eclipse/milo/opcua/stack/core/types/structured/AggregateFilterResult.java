@@ -16,7 +16,7 @@ package org.eclipse.milo.opcua.stack.core.types.structured;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamWriter;
@@ -82,7 +82,7 @@ public class AggregateFilterResult extends MonitoringFilterResult {
         public AggregateFilterResult decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
             DateTime _revisedStartTime = reader.readDateTime();
             Double _revisedProcessingInterval = reader.readDouble();
-            AggregateConfiguration _revisedAggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", reader);
+            AggregateConfiguration _revisedAggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", reader);
 
             return new AggregateFilterResult(_revisedStartTime, _revisedProcessingInterval, _revisedAggregateConfiguration);
         }
@@ -91,7 +91,7 @@ public class AggregateFilterResult extends MonitoringFilterResult {
         public void encode(SerializationContext context, AggregateFilterResult encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
             writer.writeDateTime(encodable._revisedStartTime);
             writer.writeDouble(encodable._revisedProcessingInterval);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", encodable._revisedAggregateConfiguration, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", encodable._revisedAggregateConfiguration, writer);
         }
     }
 
@@ -100,7 +100,7 @@ public class AggregateFilterResult extends MonitoringFilterResult {
         public AggregateFilterResult decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
             DateTime _revisedStartTime = reader.readDateTime("RevisedStartTime");
             Double _revisedProcessingInterval = reader.readDouble("RevisedProcessingInterval");
-            AggregateConfiguration _revisedAggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", reader);
+            AggregateConfiguration _revisedAggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", reader);
 
             return new AggregateFilterResult(_revisedStartTime, _revisedProcessingInterval, _revisedAggregateConfiguration);
         }
@@ -109,7 +109,7 @@ public class AggregateFilterResult extends MonitoringFilterResult {
         public void encode(SerializationContext context, AggregateFilterResult encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
             writer.writeDateTime("RevisedStartTime", encodable._revisedStartTime);
             writer.writeDouble("RevisedProcessingInterval", encodable._revisedProcessingInterval);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", encodable._revisedAggregateConfiguration, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", encodable._revisedAggregateConfiguration, writer);
         }
     }
 

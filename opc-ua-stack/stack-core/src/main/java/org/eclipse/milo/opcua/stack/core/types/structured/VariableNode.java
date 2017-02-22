@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamWriter;
@@ -136,7 +136,7 @@ public class VariableNode extends InstanceNode {
             ReferenceNode[] _references =
                 reader.readArray(
                     () -> (ReferenceNode) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ReferenceNode", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReferenceNode", reader),
                     ReferenceNode.class
                 );
             Variant _value = reader.readVariant();
@@ -162,7 +162,7 @@ public class VariableNode extends InstanceNode {
             writer.writeUInt32(encodable._userWriteMask);
             writer.writeArray(
                 encodable._references,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ReferenceNode", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReferenceNode", e, writer)
             );
             writer.writeVariant(encodable._value);
             writer.writeNodeId(encodable._dataType);
@@ -189,7 +189,7 @@ public class VariableNode extends InstanceNode {
                 reader.readArray(
                     "References",
                     f -> (ReferenceNode) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "ReferenceNode", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReferenceNode", reader),
                     ReferenceNode.class
                 );
             Variant _value = reader.readVariant("Value");
@@ -216,7 +216,7 @@ public class VariableNode extends InstanceNode {
             writer.writeArray(
                 "References",
                 encodable._references,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ReferenceNode", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ReferenceNode", e, writer)
             );
             writer.writeVariant("Value", encodable._value);
             writer.writeNodeId("DataType", encodable._dataType);

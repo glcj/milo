@@ -17,8 +17,8 @@ import org.eclipse.milo.opcua.stack.core.UaSerializationException;
 
 public interface DataTypeCodec<T, R, W> {
 
-    T decode(R reader) throws UaSerializationException;
+    T decode(SerializationContext context, R reader) throws UaSerializationException;
 
-    void encode(T t, W writer) throws UaSerializationException;
+    void encode(SerializationContext context, T t, W writer) throws UaSerializationException;
 
 }

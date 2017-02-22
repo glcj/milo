@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaRequestMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -75,11 +75,11 @@ public class TranslateBrowsePathsToNodeIdsRequest implements UaRequestMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<TranslateBrowsePathsToNodeIdsRequest> {
         @Override
         public TranslateBrowsePathsToNodeIdsRequest decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             BrowsePath[] _browsePaths =
                 reader.readArray(
                     () -> (BrowsePath) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "BrowsePath", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "BrowsePath", reader),
                     BrowsePath.class
                 );
 
@@ -88,10 +88,10 @@ public class TranslateBrowsePathsToNodeIdsRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, TranslateBrowsePathsToNodeIdsRequest encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeArray(
                 encodable._browsePaths,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "BrowsePath", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "BrowsePath", e, writer)
             );
         }
     }
@@ -99,12 +99,12 @@ public class TranslateBrowsePathsToNodeIdsRequest implements UaRequestMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<TranslateBrowsePathsToNodeIdsRequest> {
         @Override
         public TranslateBrowsePathsToNodeIdsRequest decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
             BrowsePath[] _browsePaths =
                 reader.readArray(
                     "BrowsePaths",
                     f -> (BrowsePath) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "BrowsePath", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "BrowsePath", reader),
                     BrowsePath.class
                 );
 
@@ -113,11 +113,11 @@ public class TranslateBrowsePathsToNodeIdsRequest implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, TranslateBrowsePathsToNodeIdsRequest encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
             writer.writeArray(
                 "BrowsePaths",
                 encodable._browsePaths,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "BrowsePath", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "BrowsePath", e, writer)
             );
         }
     }

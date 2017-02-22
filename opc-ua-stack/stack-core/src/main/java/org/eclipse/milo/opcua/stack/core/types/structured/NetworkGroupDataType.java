@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaStructure;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -79,7 +79,7 @@ public class NetworkGroupDataType implements UaStructure {
             EndpointUrlListDataType[] _networkPaths =
                 reader.readArray(
                     () -> (EndpointUrlListDataType) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "EndpointUrlListDataType", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "EndpointUrlListDataType", reader),
                     EndpointUrlListDataType.class
                 );
 
@@ -91,7 +91,7 @@ public class NetworkGroupDataType implements UaStructure {
             writer.writeString(encodable._serverUri);
             writer.writeArray(
                 encodable._networkPaths,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "EndpointUrlListDataType", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "EndpointUrlListDataType", e, writer)
             );
         }
     }
@@ -104,7 +104,7 @@ public class NetworkGroupDataType implements UaStructure {
                 reader.readArray(
                     "NetworkPaths",
                     f -> (EndpointUrlListDataType) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "EndpointUrlListDataType", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "EndpointUrlListDataType", reader),
                     EndpointUrlListDataType.class
                 );
 
@@ -117,7 +117,7 @@ public class NetworkGroupDataType implements UaStructure {
             writer.writeArray(
                 "NetworkPaths",
                 encodable._networkPaths,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "EndpointUrlListDataType", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "EndpointUrlListDataType", e, writer)
             );
         }
     }

@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaStructure;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -137,7 +137,7 @@ public class SoftwareCertificate implements UaStructure {
             SupportedProfile[] _supportedProfiles =
                 reader.readArray(
                     () -> (SupportedProfile) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "SupportedProfile", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "SupportedProfile", reader),
                     SupportedProfile.class
                 );
 
@@ -157,7 +157,7 @@ public class SoftwareCertificate implements UaStructure {
             writer.writeDateTime(encodable._issueDate);
             writer.writeArray(
                 encodable._supportedProfiles,
-                e -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "SupportedProfile", e, writer)
+                e -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "SupportedProfile", e, writer)
             );
         }
     }
@@ -178,7 +178,7 @@ public class SoftwareCertificate implements UaStructure {
                 reader.readArray(
                     "SupportedProfiles",
                     f -> (SupportedProfile) context.decode(
-                        OpcUaDataTypeDictionary.NAMESPACE_URI, "SupportedProfile", reader),
+                        OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "SupportedProfile", reader),
                     SupportedProfile.class
                 );
 
@@ -199,7 +199,7 @@ public class SoftwareCertificate implements UaStructure {
             writer.writeArray(
                 "SupportedProfiles",
                 encodable._supportedProfiles,
-                (f, e) -> context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "SupportedProfile", e, writer)
+                (f, e) -> context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "SupportedProfile", e, writer)
             );
         }
     }

@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaRequestMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -82,8 +82,8 @@ public class RegisterServer2Request implements UaRequestMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<RegisterServer2Request> {
         @Override
         public RegisterServer2Request decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
-            RegisteredServer _server = (RegisteredServer) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RegisteredServer", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
+            RegisteredServer _server = (RegisteredServer) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RegisteredServer", reader);
             ExtensionObject[] _discoveryConfiguration = reader.readArray(reader::readExtensionObject, ExtensionObject.class);
 
             return new RegisterServer2Request(_requestHeader, _server, _discoveryConfiguration);
@@ -91,8 +91,8 @@ public class RegisterServer2Request implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, RegisterServer2Request encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RegisteredServer", encodable._server, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RegisteredServer", encodable._server, writer);
             writer.writeArray(encodable._discoveryConfiguration, writer::writeExtensionObject);
         }
     }
@@ -100,8 +100,8 @@ public class RegisterServer2Request implements UaRequestMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<RegisterServer2Request> {
         @Override
         public RegisterServer2Request decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", reader);
-            RegisteredServer _server = (RegisteredServer) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RegisteredServer", reader);
+            RequestHeader _requestHeader = (RequestHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", reader);
+            RegisteredServer _server = (RegisteredServer) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RegisteredServer", reader);
             ExtensionObject[] _discoveryConfiguration = reader.readArray("DiscoveryConfiguration", reader::readExtensionObject, ExtensionObject.class);
 
             return new RegisterServer2Request(_requestHeader, _server, _discoveryConfiguration);
@@ -109,8 +109,8 @@ public class RegisterServer2Request implements UaRequestMessage {
 
         @Override
         public void encode(SerializationContext context, RegisterServer2Request encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "RegisteredServer", encodable._server, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RequestHeader", encodable._requestHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "RegisteredServer", encodable._server, writer);
             writer.writeArray("DiscoveryConfiguration", encodable._discoveryConfiguration, writer::writeExtensionObject);
         }
     }

@@ -13,8 +13,10 @@
 
 package org.eclipse.milo.opcua.stack.core.serialization;
 
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.ByteOrder;
+import javax.xml.stream.XMLStreamException;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
@@ -88,12 +90,12 @@ public class OpcUaDataTypeEncoding implements DataTypeEncoding {
 
             StringWriter stringWriter = new StringWriter();
 
-            OpcXmlStreamWriter writer = null; // TODO
+            OpcXmlStreamWriter writer = new OpcXmlStreamWriter(stringWriter);
 
             codec.encode(() -> dataTypeManager, object, writer);
 
             return new XmlElement(stringWriter.toString());
-        } catch (ClassCastException e) {
+        } catch (ClassCastException | XMLStreamException e) {
             throw new UaSerializationException(StatusCodes.Bad_EncodingError, e);
         }
     }
@@ -147,10 +149,10 @@ public class OpcUaDataTypeEncoding implements DataTypeEncoding {
                     "no codec registered for encodingTypeId=" + encodingTypeId);
             }
 
-            OpcXmlStreamReader reader = null; // TODO
+            OpcXmlStreamReader reader = new OpcXmlStreamReader(new StringReader(encoded.getFragment()));
 
             return codec.decode(() -> dataTypeManager, reader);
-        } catch (ClassCastException e) {
+        } catch (ClassCastException | XMLStreamException e) {
             throw new UaSerializationException(StatusCodes.Bad_DecodingError, e);
         }
     }

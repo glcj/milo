@@ -16,7 +16,7 @@ package org.eclipse.milo.opcua.stack.core.types.structured;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaResponseMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -86,9 +86,9 @@ public class OpenSecureChannelResponse implements UaResponseMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<OpenSecureChannelResponse> {
         @Override
         public OpenSecureChannelResponse decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             UInteger _serverProtocolVersion = reader.readUInt32();
-            ChannelSecurityToken _securityToken = (ChannelSecurityToken) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ChannelSecurityToken", reader);
+            ChannelSecurityToken _securityToken = (ChannelSecurityToken) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ChannelSecurityToken", reader);
             ByteString _serverNonce = reader.readByteString();
 
             return new OpenSecureChannelResponse(_responseHeader, _serverProtocolVersion, _securityToken, _serverNonce);
@@ -96,9 +96,9 @@ public class OpenSecureChannelResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, OpenSecureChannelResponse encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeUInt32(encodable._serverProtocolVersion);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ChannelSecurityToken", encodable._securityToken, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ChannelSecurityToken", encodable._securityToken, writer);
             writer.writeByteString(encodable._serverNonce);
         }
     }
@@ -106,9 +106,9 @@ public class OpenSecureChannelResponse implements UaResponseMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<OpenSecureChannelResponse> {
         @Override
         public OpenSecureChannelResponse decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             UInteger _serverProtocolVersion = reader.readUInt32("ServerProtocolVersion");
-            ChannelSecurityToken _securityToken = (ChannelSecurityToken) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ChannelSecurityToken", reader);
+            ChannelSecurityToken _securityToken = (ChannelSecurityToken) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ChannelSecurityToken", reader);
             ByteString _serverNonce = reader.readByteString("ServerNonce");
 
             return new OpenSecureChannelResponse(_responseHeader, _serverProtocolVersion, _securityToken, _serverNonce);
@@ -116,9 +116,9 @@ public class OpenSecureChannelResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, OpenSecureChannelResponse encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeUInt32("ServerProtocolVersion", encodable._serverProtocolVersion);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ChannelSecurityToken", encodable._securityToken, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ChannelSecurityToken", encodable._securityToken, writer);
             writer.writeByteString("ServerNonce", encodable._serverNonce);
         }
     }

@@ -15,16 +15,18 @@ package org.eclipse.milo.opcua.stack.core.serialization;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
+import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
+import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcXmlDataTypeCodec;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 
-public class OpcUaDataTypeDictionaryInitializerTest {
+public class OpcUaDataTypeManagerInitializerTest {
 
     @Test
     public void testInitialize() throws Exception {
-        OpcUaDataTypeDictionaryInitializer.initialize();
+        OpcUaDataTypeManagerInitializer.initialize();
 
         ClassLoader classLoader = getClass().getClassLoader();
         ClassPath classPath = ClassPath.from(classLoader);
@@ -37,16 +39,24 @@ public class OpcUaDataTypeDictionaryInitializerTest {
         for (ClassPath.ClassInfo classInfo : structures) {
             Class<?> clazz = classInfo.load();
 
-            assertNotNull(
-                OpcUaDataTypeDictionary.getInstance().getBinaryCodec(clazz.getSimpleName()),
-                "no binary codec found for " + clazz.getSimpleName()
+            OpcBinaryDataTypeCodec<?> binaryCodec = OpcUaDataTypeManager.getInstance().getBinaryCodec(
+                OpcUaDataTypeManager.BINARY_NAMESPACE_URI,
+                clazz.getSimpleName()
             );
 
-            assertNotNull(
-                OpcUaDataTypeDictionary.getInstance().getXmlCodec(clazz.getSimpleName()),
-                "no xml codec found for " + clazz.getSimpleName()
+            assertNotNull(binaryCodec, "no binary codec found for " + clazz.getSimpleName());
+
+            OpcXmlDataTypeCodec<?> xmlCodec = OpcUaDataTypeManager.getInstance().getXmlCodec(
+                OpcUaDataTypeManager.XML_NAMESPACE_URI,
+                xpathify(clazz.getSimpleName())
             );
+
+            assertNotNull(xmlCodec, "no xml codec found for " + clazz.getSimpleName());
         }
+    }
+
+    private static String xpathify(String typeName) {
+        return String.format("//xs:element[@name='%s']", typeName);
     }
 
 }

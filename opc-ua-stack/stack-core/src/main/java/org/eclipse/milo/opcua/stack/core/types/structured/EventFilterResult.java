@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamWriter;
@@ -87,7 +87,7 @@ public class EventFilterResult extends MonitoringFilterResult {
         public EventFilterResult decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
             StatusCode[] _selectClauseResults = reader.readArray(reader::readStatusCode, StatusCode.class);
             DiagnosticInfo[] _selectClauseDiagnosticInfos = reader.readArray(reader::readDiagnosticInfo, DiagnosticInfo.class);
-            ContentFilterResult _whereClauseResult = (ContentFilterResult) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ContentFilterResult", reader);
+            ContentFilterResult _whereClauseResult = (ContentFilterResult) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ContentFilterResult", reader);
 
             return new EventFilterResult(_selectClauseResults, _selectClauseDiagnosticInfos, _whereClauseResult);
         }
@@ -96,7 +96,7 @@ public class EventFilterResult extends MonitoringFilterResult {
         public void encode(SerializationContext context, EventFilterResult encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
             writer.writeArray(encodable._selectClauseResults, writer::writeStatusCode);
             writer.writeArray(encodable._selectClauseDiagnosticInfos, writer::writeDiagnosticInfo);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ContentFilterResult", encodable._whereClauseResult, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ContentFilterResult", encodable._whereClauseResult, writer);
         }
     }
 
@@ -105,7 +105,7 @@ public class EventFilterResult extends MonitoringFilterResult {
         public EventFilterResult decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
             StatusCode[] _selectClauseResults = reader.readArray("SelectClauseResults", reader::readStatusCode, StatusCode.class);
             DiagnosticInfo[] _selectClauseDiagnosticInfos = reader.readArray("SelectClauseDiagnosticInfos", reader::readDiagnosticInfo, DiagnosticInfo.class);
-            ContentFilterResult _whereClauseResult = (ContentFilterResult) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ContentFilterResult", reader);
+            ContentFilterResult _whereClauseResult = (ContentFilterResult) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ContentFilterResult", reader);
 
             return new EventFilterResult(_selectClauseResults, _selectClauseDiagnosticInfos, _whereClauseResult);
         }
@@ -114,7 +114,7 @@ public class EventFilterResult extends MonitoringFilterResult {
         public void encode(SerializationContext context, EventFilterResult encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
             writer.writeArray("SelectClauseResults", encodable._selectClauseResults, writer::writeStatusCode);
             writer.writeArray("SelectClauseDiagnosticInfos", encodable._selectClauseDiagnosticInfos, writer::writeDiagnosticInfo);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ContentFilterResult", encodable._whereClauseResult, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ContentFilterResult", encodable._whereClauseResult, writer);
         }
     }
 

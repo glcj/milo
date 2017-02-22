@@ -53,7 +53,7 @@
 //
 //public class BinaryEncoder implements UaEncoder {
 //
-//    private static final OpcUaDataTypeDictionary TYPE_DICTIONARY = OpcUaDataTypeDictionary.getInstance();
+//    private static final OpcUaDataTypeManager TYPE_DICTIONARY = OpcUaDataTypeManager.getOrInitialize();
 //
 //    private volatile ByteBuf buffer;
 //

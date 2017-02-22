@@ -16,7 +16,7 @@ package org.eclipse.milo.opcua.stack.core.types.structured;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaResponseMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -72,32 +72,32 @@ public class RepublishResponse implements UaResponseMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<RepublishResponse> {
         @Override
         public RepublishResponse decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
-            NotificationMessage _notificationMessage = (NotificationMessage) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "NotificationMessage", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
+            NotificationMessage _notificationMessage = (NotificationMessage) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "NotificationMessage", reader);
 
             return new RepublishResponse(_responseHeader, _notificationMessage);
         }
 
         @Override
         public void encode(SerializationContext context, RepublishResponse encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "NotificationMessage", encodable._notificationMessage, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "NotificationMessage", encodable._notificationMessage, writer);
         }
     }
 
     public static class XmlCodec implements OpcXmlDataTypeCodec<RepublishResponse> {
         @Override
         public RepublishResponse decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
-            NotificationMessage _notificationMessage = (NotificationMessage) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "NotificationMessage", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
+            NotificationMessage _notificationMessage = (NotificationMessage) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "NotificationMessage", reader);
 
             return new RepublishResponse(_responseHeader, _notificationMessage);
         }
 
         @Override
         public void encode(SerializationContext context, RepublishResponse encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "NotificationMessage", encodable._notificationMessage, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "NotificationMessage", encodable._notificationMessage, writer);
         }
     }
 

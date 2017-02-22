@@ -16,7 +16,7 @@ package org.eclipse.milo.opcua.stack.core.types.structured;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamWriter;
@@ -89,7 +89,7 @@ public class AggregateFilter extends MonitoringFilter {
             DateTime _startTime = reader.readDateTime();
             NodeId _aggregateType = reader.readNodeId();
             Double _processingInterval = reader.readDouble();
-            AggregateConfiguration _aggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", reader);
+            AggregateConfiguration _aggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", reader);
 
             return new AggregateFilter(_startTime, _aggregateType, _processingInterval, _aggregateConfiguration);
         }
@@ -99,7 +99,7 @@ public class AggregateFilter extends MonitoringFilter {
             writer.writeDateTime(encodable._startTime);
             writer.writeNodeId(encodable._aggregateType);
             writer.writeDouble(encodable._processingInterval);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", encodable._aggregateConfiguration, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", encodable._aggregateConfiguration, writer);
         }
     }
 
@@ -109,7 +109,7 @@ public class AggregateFilter extends MonitoringFilter {
             DateTime _startTime = reader.readDateTime("StartTime");
             NodeId _aggregateType = reader.readNodeId("AggregateType");
             Double _processingInterval = reader.readDouble("ProcessingInterval");
-            AggregateConfiguration _aggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", reader);
+            AggregateConfiguration _aggregateConfiguration = (AggregateConfiguration) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", reader);
 
             return new AggregateFilter(_startTime, _aggregateType, _processingInterval, _aggregateConfiguration);
         }
@@ -119,7 +119,7 @@ public class AggregateFilter extends MonitoringFilter {
             writer.writeDateTime("StartTime", encodable._startTime);
             writer.writeNodeId("AggregateType", encodable._aggregateType);
             writer.writeDouble("ProcessingInterval", encodable._processingInterval);
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "AggregateConfiguration", encodable._aggregateConfiguration, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "AggregateConfiguration", encodable._aggregateConfiguration, writer);
         }
     }
 

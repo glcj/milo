@@ -16,7 +16,7 @@ package org.eclipse.milo.opcua.stack.core.types.structured;
 import com.google.common.base.MoreObjects;
 import org.eclipse.milo.opcua.stack.core.Identifiers;
 import org.eclipse.milo.opcua.stack.core.UaSerializationException;
-import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeDictionary;
+import org.eclipse.milo.opcua.stack.core.serialization.OpcUaDataTypeManager;
 import org.eclipse.milo.opcua.stack.core.serialization.UaResponseMessage;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryDataTypeCodec;
 import org.eclipse.milo.opcua.stack.core.serialization.codec.OpcBinaryStreamReader;
@@ -91,7 +91,7 @@ public class CreateSubscriptionResponse implements UaResponseMessage {
     public static class BinaryCodec implements OpcBinaryDataTypeCodec<CreateSubscriptionResponse> {
         @Override
         public CreateSubscriptionResponse decode(SerializationContext context, OpcBinaryStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             UInteger _subscriptionId = reader.readUInt32();
             Double _revisedPublishingInterval = reader.readDouble();
             UInteger _revisedLifetimeCount = reader.readUInt32();
@@ -102,7 +102,7 @@ public class CreateSubscriptionResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, CreateSubscriptionResponse encodable, OpcBinaryStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeUInt32(encodable._subscriptionId);
             writer.writeDouble(encodable._revisedPublishingInterval);
             writer.writeUInt32(encodable._revisedLifetimeCount);
@@ -113,7 +113,7 @@ public class CreateSubscriptionResponse implements UaResponseMessage {
     public static class XmlCodec implements OpcXmlDataTypeCodec<CreateSubscriptionResponse> {
         @Override
         public CreateSubscriptionResponse decode(SerializationContext context, OpcXmlStreamReader reader) throws UaSerializationException {
-            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", reader);
+            ResponseHeader _responseHeader = (ResponseHeader) context.decode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", reader);
             UInteger _subscriptionId = reader.readUInt32("SubscriptionId");
             Double _revisedPublishingInterval = reader.readDouble("RevisedPublishingInterval");
             UInteger _revisedLifetimeCount = reader.readUInt32("RevisedLifetimeCount");
@@ -124,7 +124,7 @@ public class CreateSubscriptionResponse implements UaResponseMessage {
 
         @Override
         public void encode(SerializationContext context, CreateSubscriptionResponse encodable, OpcXmlStreamWriter writer) throws UaSerializationException {
-            context.encode(OpcUaDataTypeDictionary.NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
+            context.encode(OpcUaDataTypeManager.BINARY_NAMESPACE_URI, "ResponseHeader", encodable._responseHeader, writer);
             writer.writeUInt32("SubscriptionId", encodable._subscriptionId);
             writer.writeDouble("RevisedPublishingInterval", encodable._revisedPublishingInterval);
             writer.writeUInt32("RevisedLifetimeCount", encodable._revisedLifetimeCount);
